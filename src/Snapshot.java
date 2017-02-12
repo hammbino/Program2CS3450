@@ -1,12 +1,11 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * Program2
  * Created by jeffrey hammond on 2/11/17.
  */
+import java.util.ArrayList;
 
 public class Snapshot {
+
     private String date;
     private ArrayList<Ticker> tickers;
 
@@ -18,8 +17,26 @@ public class Snapshot {
         date = s;
     }
 
+    String getDate() {
+        return date.replace("Last updated ", "");
+    }
+
+    String getLastUpdate() {
+        return date;
+    }
+
     void addTicker (Ticker t) {
         tickers.add(t);
+    }
+
+
+    public ArrayList<Ticker> getTickers() {
+        return tickers;
+    }
+
+    public void update() {
+        date = "";
+        tickers.clear();
     }
 
     void printSanpshot () {

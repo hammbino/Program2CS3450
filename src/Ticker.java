@@ -9,26 +9,38 @@ public class Ticker {
 
     private String company;
     private String symbol;
-    private float price;
-    private float amountChanged;
-    private float percentChanged;
-    private float ytdChange;
-    private float yrHigh;
-    private float yrLow;
-    private float ratio;
+    private double price;
+    private double amountChanged;
+    private double percentChanged;
+    private double ytdChange;
+    private double yrHigh;
+    private double yrLow;
+    private double ratio;
 
     Ticker (String s) {
         Scanner sc = new Scanner(s);
         company = sc.findInLine("^\\D+(?=\\s\\w+\\s\\d)");
         symbol = sc.next();
-        price = sc.nextFloat();
-        amountChanged = sc.nextFloat();
-        percentChanged = sc.nextFloat();
-        ytdChange = sc.nextFloat();
-        yrHigh = sc.nextFloat();
-        yrLow = sc.nextFloat();
-        ratio = sc.hasNextFloat() ? sc.nextFloat() : 0;
+        price = sc.nextDouble();
+        amountChanged = sc.nextDouble();
+        percentChanged = sc.nextDouble();
+        ytdChange = sc.nextDouble();
+        yrHigh = sc.nextDouble();
+        yrLow = sc.nextDouble();
+        ratio = sc.hasNextDouble() ? sc.nextDouble() : 0;
         sc.close();
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getPercentChanged() {
+        return percentChanged;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 
     @Override

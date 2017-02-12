@@ -10,12 +10,12 @@ public class LocalStocks implements Subject {
     private Snapshot snapshot;
 
     public LocalStocks() {
-        observers = new ArrayList<Observer>();
-        snapshot = new Snapshot();
+        this.observers = new ArrayList<Observer>();
+        this.snapshot = new Snapshot();
     }
 
     public void updateSnapshot (ArrayList<String> snapshotData) {
-
+        snapshot.update();
         for (String s: snapshotData) {
             if (s.matches("(Last).*")) {
                 snapshot.setData(s);
@@ -25,8 +25,13 @@ public class LocalStocks implements Subject {
             }
         }
         //To Test print Snapshot
-        snapshot.printSanpshot();
-        //TODO notifyObservers();
+//        snapshot.printSanpshot();
+        notifyObservers();
+    }
+
+
+    public Snapshot getSnapshot() {
+        return snapshot;
     }
 
     @Override
@@ -47,5 +52,10 @@ public class LocalStocks implements Subject {
         for (Observer observer : observers) {
             observer.update(this, snapshot);
         }
+    }
+
+    @Override
+    public String toString() {
+        return String.format("LocalStocks");
     }
 }
