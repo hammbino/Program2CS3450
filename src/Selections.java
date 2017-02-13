@@ -16,9 +16,6 @@ public class Selections implements Observer {
 
     Selections(Subject s) throws IOException {
         subscribed.add(s);
-        if(selectionsFile.exists()) {
-            selectionsFile.delete();
-        }
         selectionsFile.createNewFile();
     }
 
@@ -32,12 +29,14 @@ public class Selections implements Observer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println(ss.getLastUpdate());
         if (subscribed.contains(s)) {
             try {
                 writer = new FileWriter(selectionsFile, true);
                 for (Ticker ticker: ss.getTickers()) {
                     if (compsFollowing.contains(ticker.getSymbol())) {
                         writer.write(ticker + "\n");
+                        System.out.println(ticker);
                     }
                 }
                 writer.write("\n");
@@ -46,6 +45,7 @@ public class Selections implements Observer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.out.println();
         }
     }
 }
