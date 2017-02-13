@@ -28,9 +28,28 @@ public class Main {
         }
 
         localStocks = new LocalStocks();
-//        Average average = new Average(localStocks);
-        Change10 change10 = new Change10(localStocks);
-//        Selections selections = new Selections(localStocks);
+        Average average = null;
+        try {
+            average = new Average(localStocks);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Change10 change10 = null;
+        try {
+            change10 = new Change10(localStocks);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Selections selections = null;
+        try {
+            selections = new Selections(localStocks);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        localStocks.addObserver(selections);
+        localStocks.addObserver(change10);
+        localStocks.addObserver(average);
+
 //TODO figure out how to run the last update Snapshot in the loop without having to call it again.
         while (fileReader.hasNextLine()) {
             String line = fileReader.nextLine();

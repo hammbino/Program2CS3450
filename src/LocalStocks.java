@@ -2,7 +2,6 @@
  * Program2
  * Created by jeffrey hammond on 2/11/17.
  */
-
 import java.util.ArrayList;
 
 public class LocalStocks implements Subject {
@@ -10,7 +9,7 @@ public class LocalStocks implements Subject {
     private Snapshot snapshot;
 
     public LocalStocks() {
-        this.observers = new ArrayList<Observer>();
+        this.observers = new ArrayList<>();
         this.snapshot = new Snapshot();
     }
 
@@ -24,8 +23,6 @@ public class LocalStocks implements Subject {
                 snapshot.addTicker(ticker);
             }
         }
-        //To Test print Snapshot
-//        snapshot.printSanpshot();
         notifyObservers();
     }
 
@@ -53,9 +50,9 @@ public class LocalStocks implements Subject {
             observer.update(this, snapshot);
         }
     }
-
-    @Override
-    public String toString() {
-        return String.format("LocalStocks");
-    }
+//
+//    @Override
+//    public String toString() {
+//        return String.format("LocalStocks");
+//    }
 }
