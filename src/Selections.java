@@ -9,10 +9,9 @@ import java.io.File;
 import java.io.FileWriter;
 
 class Selections implements Observer {
-    private ArrayList subscribed = new ArrayList();
-    private static ArrayList compsFollowing = new ArrayList(Arrays.asList("ALL", "BA", "BC", "GRBL", "KRT", "MCD", "TR", "WAG"));
+    private ArrayList<Subject> subscribed = new ArrayList<>();
+    private static ArrayList<String> compsFollowing = new ArrayList<>(Arrays.asList("ALL", "BA", "BC", "GRBL", "KRT", "MCD", "TR", "WAG"));
     private File selectionsFile = new File("selections.txt");
-    private FileWriter writer;
 
     Selections() throws IOException {
         if(selectionsFile.exists()) {
@@ -28,6 +27,7 @@ class Selections implements Observer {
     //A report that displays all fields for the following companies: ALL, BA, BC, GRBL, KRT, MCD, TR, WAG
     @Override
     public void update(Subject s, Snapshot ss) {
+        FileWriter writer;
         try {
             writer = new FileWriter(selectionsFile, true);
             writer.write(ss.getLastUpdate() + "\n");
