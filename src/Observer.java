@@ -5,4 +5,5 @@
 
 public interface Observer {
     public void update(Subject s, Snapshot ss);
+    public void addSubject(Subject s);
 }

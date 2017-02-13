@@ -1,10 +1,10 @@
-/**
+/*
  * Program2
  * Created by jeffrey hammond on 2/11/17.
  */
 import java.util.ArrayList;
 
-public class Snapshot {
+class Snapshot {
 
     private String date;
     private ArrayList<Ticker> tickers;
@@ -13,7 +13,7 @@ public class Snapshot {
         tickers = new ArrayList<>();
     }
 
-    void setData(String s) {
+    void setDate(String s) {
         date = s;
     }
 
@@ -29,22 +29,7 @@ public class Snapshot {
         tickers.add(t);
     }
 
-
-    public ArrayList<Ticker> getTickers() {
+    ArrayList<Ticker> getTickers() {
         return tickers;
-    }
-
-    public void update() {
-        date = "";
-        tickers.clear();
-    }
-
-    void printSanpshot () {
-        System.out.println(date);
-        for (Ticker ticker: tickers) {
-            System.out.println(ticker);
-        }
-        tickers.clear();
-        System.out.println();
     }
 }

@@ -1,11 +1,11 @@
-/**
+/*
  * Program2
- * Created by jeffreyhammond on 2/11/17.
+ * Created by jeffrey hammond on 2/11/17.
  */
 
 import java.util.*;
 
-public class Ticker {
+class Ticker {
 
     private String company;
     private String symbol;
@@ -31,15 +31,15 @@ public class Ticker {
         sc.close();
     }
 
-    public double getPrice() {
+    double getPrice() {
         return price;
     }
 
-    public double getPercentChanged() {
+    double getPercentChanged() {
         return percentChanged;
     }
 
-    public String getSymbol() {
+    String getSymbol() {
         return symbol;
     }
 

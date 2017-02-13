@@ -1,6 +1,6 @@
-/**
+/*
  * Program2
- * Created by jeffreyhammond on 2/12/17.
+ * Created by jeffrey hammond on 2/12/17.
  */
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,15 +8,21 @@ import java.util.Arrays;
 import java.io.File;
 import java.io.FileWriter;
 
-public class Selections implements Observer {
+class Selections implements Observer {
     private ArrayList subscribed = new ArrayList();
     private static ArrayList compsFollowing = new ArrayList(Arrays.asList("ALL", "BA", "BC", "GRBL", "KRT", "MCD", "TR", "WAG"));
-    File selectionsFile = new File("selections.txt");
-    FileWriter writer;
+    private File selectionsFile = new File("selections.txt");
+    private FileWriter writer;
 
-    Selections(Subject s) throws IOException {
-        subscribed.add(s);
+    Selections() throws IOException {
+        if(selectionsFile.exists()) {
+            selectionsFile.delete();
+        }
         selectionsFile.createNewFile();
+    }
+
+    public void addSubject(Subject s) {
+        subscribed.add(s);
     }
 
     //A report that displays all fields for the following companies: ALL, BA, BC, GRBL, KRT, MCD, TR, WAG
@@ -29,14 +35,12 @@ public class Selections implements Observer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(ss.getLastUpdate());
         if (subscribed.contains(s)) {
             try {
                 writer = new FileWriter(selectionsFile, true);
                 for (Ticker ticker: ss.getTickers()) {
                     if (compsFollowing.contains(ticker.getSymbol())) {
                         writer.write(ticker + "\n");
-                        System.out.println(ticker);
                     }
                 }
                 writer.write("\n");
@@ -45,7 +49,6 @@ public class Selections implements Observer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println();
         }
     }
 }

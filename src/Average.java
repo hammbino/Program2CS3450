@@ -1,4 +1,4 @@
-/**
+/*
  * Program2
  * Created by jeffrey hammond on 2/12/17.
  */
@@ -9,15 +9,17 @@ import java.util.ArrayList;
 
 public class Average implements Observer {
     private ArrayList subscribed = new ArrayList();
-    File selectionsFile = new File("average.txt");
-    FileWriter writer;
+    private File selectionsFile = new File("average.txt");
 
-    Average(Subject s) throws IOException {
-        subscribed.add(s);
+    Average() throws IOException {
         if(selectionsFile.exists()) {
             selectionsFile.delete();
         }
         selectionsFile.createNewFile();
+    }
+
+    public void addSubject(Subject s) {
+        subscribed.add(s);
     }
 
     //A report that displays the average of all local stock prices of each snapshot,
@@ -33,14 +35,13 @@ public class Average implements Observer {
             }
             avg = avg/count;
             try {
-                writer = new FileWriter(selectionsFile, true);
+                FileWriter writer = new FileWriter(selectionsFile, true);
                 writer.write(ss.getDate() + ", Average price: " + avg + "\n\n");
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(ss.getDate() + ", Average price: " + avg + "\n");
         }
     }
 }

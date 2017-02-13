@@ -6,7 +6,9 @@ import java.lang.String;
 public class Main {
     public static void main(String[] args) {
         Scanner fileReader = null;
-        ArrayList<String> snapshotData = new ArrayList<>();
+//        ArrayList<String> snapshotData = new ArrayList<>();
+        ArrayList<Snapshot> snapshots = new ArrayList<>();
+        Snapshot snapshot = null;
         String fileName;
         LocalStocks localStocks;
 
@@ -28,39 +30,82 @@ public class Main {
         }
 
         localStocks = new LocalStocks();
+
         Average average = null;
         try {
-            average = new Average(localStocks);
+            average = new Average();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         Change10 change10 = null;
         try {
-            change10 = new Change10(localStocks);
+            change10 = new Change10();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         Selections selections = null;
         try {
-            selections = new Selections(localStocks);
+            selections = new Selections();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        localStocks.addObserver(selections);
-        localStocks.addObserver(change10);
-        localStocks.addObserver(average);
 
-//TODO figure out how to run the last update Snapshot in the loop without having to call it again.
         while (fileReader.hasNextLine()) {
             String line = fileReader.nextLine();
             if (line.equals("")) {
-                localStocks.updateSnapshot(snapshotData);
-                snapshotData.clear();
+                snapshots.add(snapshot);
             } else {
-                snapshotData.add(line);
+                if (line.matches("(Last).*")) {
+                    snapshot = new Snapshot();
+                    snapshot.setDate(line);
+                } else {
+                    Ticker ticker = new Ticker(line);
+                    if (snapshot != null) {
+                        snapshot.addTicker(ticker);
+                    }
+                }
             }
         }
-        localStocks.updateSnapshot(snapshotData);
-        snapshotData.clear();
+        snapshots.add(snapshot);
+
+        localStocks.addObserver(average);
+
+        if (!snapshots.isEmpty()) {
+            localStocks.updateSnapshot(snapshots.remove(0));
+        }
+
+        localStocks.addObserver(change10);
+
+        if (!snapshots.isEmpty()) {
+            localStocks.updateSnapshot(snapshots.remove(0));
+        }
+
+        localStocks.addObserver(selections);
+
+        if (!snapshots.isEmpty()) {
+            localStocks.updateSnapshot(snapshots.remove(0));
+        }
+
+        localStocks.removeObserver(change10);
+
+        if (!snapshots.isEmpty()) {
+            localStocks.updateSnapshot(snapshots.remove(0));
+        }
+
+        localStocks.removeObserver(selections);
+
+        if (!snapshots.isEmpty()) {
+            localStocks.updateSnapshot(snapshots.remove(0));
+        }
+
+        localStocks.addObserver(change10);
+
+        localStocks.addObserver(selections);
+
+        if (!snapshots.isEmpty()) {
+            snapshots.forEach(localStocks::updateSnapshot);
+        }
     }
 }
